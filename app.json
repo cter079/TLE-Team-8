@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Reactapp",
-    "slug": "Reactapp",
+    "slug": "cter079",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0af722e8-120d-44b0-b31d-8034d61a0aa4"
+      }
+    },
+    "owner": "cter079"
   }
 }
