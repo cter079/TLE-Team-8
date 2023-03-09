@@ -8,13 +8,14 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import db from '../firebase';
+import { GeoPoint } from 'firebase/firestore';
+
 
 
 
 
 import { Permission } from 'react-native';
-
-
 
 
 export default function HomeScreen({ route }) {
@@ -85,6 +86,9 @@ useEffect(() => {
     }  
   };
 
+    
+  
+
   const setLocationData = async () => {
     if(!location){
 
@@ -103,7 +107,7 @@ useEffect(() => {
   params: {
     lat: latitude,
     lon: longitude,
-    appid: '855642dc4b70cd088afae09f13689a61',
+    appid: '433503c96ffa201c901c35d71c7a1f87',
     units:'metric'
   }
 
@@ -136,9 +140,41 @@ useEffect(() => {
     
     }
   };
+
+  const addUser = async () => {
+    const email = await AsyncStorage.getItem('email');
+    const username = await AsyncStorage.getItem('username');
+    if(location && email && username){
+      const { latitude, longitude } = location.coords;
+        const userExists = await db.collection('users').doc(username).get();
+        if(!userExists.exists){
+
+        db.collection('users').doc(username).set({
+          email: email,
+          username: username,
+          location: new GeoPoint(latitude, longitude),
+        })
+        .then(() => {
+          console.log("Document successfully written!");
+        }
+        )
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        }
+        );
+      
+    }
+
+
+      
+  }
+  };
+
   getLocationPermission();
   setLocationData();
   getWeather();
+  addUser()
+
 
 }, [location]);
 
@@ -194,6 +230,11 @@ useEffect(() => {
                 style={styles.back}
                 onPress={() => navigation.navigate('Profile')}>
                 <Icon name='person-circle-outline' size={30} color='#424423' />
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.front}
+                onPress={() => navigation.navigate('Chats')}>
+                <Icon name='chatbox-outline' size={30} color='#424423' />
             </TouchableOpacity>
       <View style={styles.buttons}>
       <View style={styles.bigButtonWeather}>

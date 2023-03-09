@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import Checkbox from 'expo-checkbox';
 import Icon from 'react-native-vector-icons/Ionicons';
+import db from '../firebase';
 
 
 
@@ -58,7 +59,8 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json'
         }});
-      const { token, fullName:fullName } = response.data;
+      const { token, fullName:fullName, email } = response.data;
+      console.log(response.data);
 
       if (rememberMe) {
         // Store the token and username in async storage
@@ -66,15 +68,21 @@ export default function Login() {
           ['token', token],
           ['loggedInUser', fullName],
           ['username', username],
+          ['email', email],
+
         ]);
       }
       await AsyncStorage.multiSet([
         ['loggedInUser', fullName],
         ['username', username],
+        ['email', email],
       ]);
   
       // Redirect to home screen with the username
         navigation.navigate('Home', { fullName: fullName });
+
+
+
   
     } catch (error) {
         setError('Invalid username or password');

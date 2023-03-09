@@ -10,7 +10,10 @@ import Footprint from './Webpages/Footprint';
 import Recipes from './Webpages/Recipes';
 import Fridge from './Webpages/Fridge';
 import Coaching from './Webpages/Coaching';
+import Chats from './Webpages/Chats';
 import { StatusBar } from 'expo-status-bar';
+import Chat from './Webpages/Chat';
+
 
 const Stack = createStackNavigator();
 
@@ -30,8 +33,8 @@ function App() {
         <Stack.Screen name="Recipes" component={Recipes} options={{ headerShown: false }} />
         <Stack.Screen name="Fridge" component={Fridge} options={{ headerShown: false }} />
         <Stack.Screen name="Coaching" component={Coaching} options={{ headerShown: false }} />
-
-
+        <Stack.Screen name="Chats" component={Chats} options={{ headerShown: false }} />
+        <Stack.Screen name="Chat" component={Chat} options={{ headerShown: false }} />
       </Stack.Navigator>
       <StatusBar hidden={false} style='auto'/>
     </NavigationContainer>
